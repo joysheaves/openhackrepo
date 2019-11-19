@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_mv5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FourthCoffeeFileServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			}
+		}
+	}
+}
