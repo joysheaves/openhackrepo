@@ -1,5 +1,5 @@
 {
-	"name": "CustomerMain",
+	"name": "CustomerMain_To_DLPREP",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
