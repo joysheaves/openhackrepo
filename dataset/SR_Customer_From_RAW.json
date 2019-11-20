@@ -19,6 +19,31 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "PhoneNumber",
+				"type": "String"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "String"
+			},
+			{
+				"name": "UpdatedDate",
+				"type": "String"
+			}
+		]
 	}
 }
