@@ -1,0 +1,20 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FC_Customer_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "FC_Customer_RAW"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> FC_Customer_RAW"
+		}
+	}
+}
