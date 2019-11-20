@@ -10,7 +10,7 @@
 						"referenceName": "FC_Customer_From_RAW",
 						"type": "DatasetReference"
 					},
-					"name": "FC_Customer_RAW"
+					"name": "FCCustomerRAW"
 				},
 				{
 					"dataset": {
@@ -37,7 +37,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "CustomerMain",
+						"referenceName": "CustomerMain_To_DLPREP",
 						"type": "DatasetReference"
 					},
 					"name": "CustomerMainSink"
@@ -61,9 +61,12 @@
 				},
 				{
 					"name": "CustomerMainUnion"
+				},
+				{
+					"name": "SurrogateKey"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FC_Customer_RAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VACustomerRAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRCustomerRAW\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRCustAddressRAW\nFC_Customer_RAW derive(CustomerID = CustomerID,\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION(''),\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION('')) ~> DeriveFCCustomer\nVACustomerRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION(''),\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION('')) ~> DeriveVACustomer\nSRCustomerRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION('')) ~> DerivedSRCustomer\nSRCustAddressRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION('')) ~> DeriveSRCustAddress\nDerivedSRCustomer, DeriveSRCustAddress join(DerivedSRCustomer@CustomerID == DeriveSRCustAddress@CustomerID,\n\tjoinType:'outer',\n\tbroadcast: 'none')~> SRCustomerJoin\nSRCustomerJoin, DeriveFCCustomer, DeriveVACustomer union(byName: true)~> CustomerMainUnion\nCustomerMainUnion sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CustomerMainSink"
+			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCCustomerRAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VACustomerRAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRCustomerRAW\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRCustAddressRAW\nFCCustomerRAW derive(CustomerID = CustomerID,\n\t\tSourceSysId = 'FC',\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION(''),\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION('')) ~> DeriveFCCustomer\nVACustomerRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tSourceSysId = 'VA',\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION(''),\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION('')) ~> DeriveVACustomer\nSRCustomerRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tSourceSysId = 'SR',\n\t\tLastName = ERROR_FUNCTION(''),\n\t\tFirstName = ERROR_FUNCTION('')) ~> DerivedSRCustomer\nSRCustAddressRAW derive(CustomerID = ERROR_FUNCTION(''),\n\t\tSourceSysId = 'SR',\n\t\tAddressLine1 = ERROR_FUNCTION(''),\n\t\tAddressLine2 = ERROR_FUNCTION(''),\n\t\tCity = ERROR_FUNCTION(''),\n\t\tState = ERROR_FUNCTION(''),\n\t\tZipCode = ERROR_FUNCTION('')) ~> DeriveSRCustAddress\nDerivedSRCustomer, DeriveSRCustAddress join(DerivedSRCustomer@CustomerID == DeriveSRCustAddress@CustomerID,\n\tjoinType:'outer',\n\tbroadcast: 'none')~> SRCustomerJoin\nSRCustomerJoin, DeriveFCCustomer, DeriveVACustomer union(byName: true)~> CustomerMainUnion\nCustomerMainUnion keyGenerate(output(id as long),\n\tstartAt: 1L) ~> SurrogateKey\nSurrogateKey sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CustomerMainSink"
 		}
 	}
 }
