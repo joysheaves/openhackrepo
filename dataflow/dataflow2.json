@@ -12,9 +12,17 @@
 					"name": "transactionStream"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "rental_trans_DL_prep",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
-			"script": "\n\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as date 'yyyy-MM-dd',\n\t\tReturnDate as date 'yyyy-MM-dd',\n\t\tRentalCost as decimal(10,0),\n\t\tLateFee as decimal(10,0),\n\t\tRewindFlag as boolean,\n\t\tCreatedDate as date 'yyyy-MM-dd',\n\t\tUpdatedDate as date 'yyyy-MM-dd'\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> transactionStream"
+			"script": "\n\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as date 'yyyy-MM-dd',\n\t\tReturnDate as date 'yyyy-MM-dd',\n\t\tRentalCost as decimal(10,0),\n\t\tLateFee as decimal(10,0),\n\t\tRewindFlag as boolean,\n\t\tCreatedDate as date 'yyyy-MM-dd',\n\t\tUpdatedDate as date 'yyyy-MM-dd'\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> transactionStream\ntransactionStream sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 		}
 	}
 }
