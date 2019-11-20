@@ -9,26 +9,29 @@
 						"referenceName": "VA_Actors_From_RAW",
 						"type": "DatasetReference"
 					},
-					"name": "VA_Actors"
+					"name": "VAActors"
 				},
 				{
 					"dataset": {
 						"referenceName": "FourthCoffee_Actors_From_RAW",
 						"type": "DatasetReference"
 					},
-					"name": "FC_Actors"
+					"name": "FCActors"
 				}
 			],
 			"sinks": [],
 			"transformations": [
 				{
+					"name": "MergeVAFC"
+				},
+				{
 					"name": "DerivedColumn1"
 				},
 				{
-					"name": "DerivedColumn2"
+					"name": "SurrogateKey1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VA_Actors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FC_Actors\nVA_Actors derive() ~> DerivedColumn1\nFC_Actors derive() ~> DerivedColumn2"
+			"script": "\n\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VAActors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCActors\nFCActors, VAActors union(byName: true)~> MergeVAFC\nMergeVAFC derive(ActorID = ERROR_FUNCTION(''),\n\t\tActorName = case(isNull(ActorName),'Unknown Actor Name',ActorName),\n\t\tGender = case(isNull(Gender),'U',Gender)) ~> DerivedColumn1\nDerivedColumn1 keyGenerate(output(ActorSK as long),\n\tstartAt: 1L) ~> SurrogateKey1"
 		}
 	}
 }
