@@ -1,0 +1,19 @@
+{
+	"name": "FC_Movies_From_RAW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SouthridgeDL_Dest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Movies.csv",
+				"folderPath": "FourthCoffee",
+				"fileSystem": "raw"
+			}
+		}
+	}
+}
