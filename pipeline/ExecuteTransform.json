@@ -41,7 +41,7 @@
 				}
 			},
 			{
-				"name": "DimActorsRAWToPrep",
+				"name": "MovieCategory",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -54,7 +54,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "DimActorsRAWToPrep",
+						"referenceName": "MovieCategory",
 						"type": "DataFlowReference"
 					}
 				}
