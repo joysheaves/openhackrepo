@@ -34,9 +34,15 @@
 				},
 				{
 					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "SurrogateKey1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as string,\n\t\tReturnDate as string,\n\t\tRentalCost as string,\n\t\tLateFee as string,\n\t\tRewindFlag as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> transactionStream\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as string,\n\t\tReturnDate as string,\n\t\tRentalCost as string,\n\t\tLateFee as string,\n\t\tRewindFlag as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> VaTranscationStream\ntransactionStream derive(RentalDate = toDate(RentalDate, 'yyyymmdd'),\n\t\tReturnDate = toDate(ReturnDate, 'yyyymmdd'),\n\t\tRentalCost = toDecimal(RentalCost),\n\t\tLateFee = toDecimal(LateFee),\n\t\tRewindFlag = toBoolean(RewindFlag),\n\t\tCreatedDate = toDate(CreatedDate),\n\t\tUpdatedDate = toDate(UpdatedDate),\n\t\tSourceSysId = 'FC') ~> DerivedColumn1\nVaTranscationStream derive(RentalDate = ERROR_FUNCTION(''),\n\t\tReturnDate = ERROR_FUNCTION(''),\n\t\tRentalCost = ERROR_FUNCTION(''),\n\t\tLateFee = ERROR_FUNCTION(''),\n\t\tRewindFlag = ERROR_FUNCTION(''),\n\t\tCreatedDate = ERROR_FUNCTION(''),\n\t\tUpdatedDate = ERROR_FUNCTION('')) ~> DerivedColumn2\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
+			"script": "\n\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as string,\n\t\tReturnDate as string,\n\t\tRentalCost as string,\n\t\tLateFee as string,\n\t\tRewindFlag as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> transactionStream\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as string,\n\t\tReturnDate as string,\n\t\tRentalCost as string,\n\t\tLateFee as string,\n\t\tRewindFlag as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> VaTranscationStream\ntransactionStream derive(RentalDate = toDate(RentalDate, 'yyyymmdd'),\n\t\tReturnDate = toDate(ReturnDate, 'yyyymmdd'),\n\t\tRentalCost = toDecimal(RentalCost),\n\t\tLateFee = toDecimal(LateFee),\n\t\tRewindFlag = toBoolean(RewindFlag),\n\t\tCreatedDate = toDate(CreatedDate),\n\t\tUpdatedDate = toDate(UpdatedDate),\n\t\tSourceSysId = 'FC') ~> DerivedColumn1\nVaTranscationStream derive(RentalDate = ERROR_FUNCTION(''),\n\t\tReturnDate = ERROR_FUNCTION(''),\n\t\tRentalCost = ERROR_FUNCTION(''),\n\t\tLateFee = ERROR_FUNCTION(''),\n\t\tRewindFlag = ERROR_FUNCTION(''),\n\t\tCreatedDate = ERROR_FUNCTION(''),\n\t\tUpdatedDate = ERROR_FUNCTION('')) ~> DerivedColumn2\nDerivedColumn1, DerivedColumn2 union(byName: true)~> Union1\nUnion1 keyGenerate(output(id as long),\n\tstartAt: 1L) ~> SurrogateKey1\nSurrogateKey1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 		}
 	}
 }
