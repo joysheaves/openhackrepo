@@ -1,0 +1,20 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FC_Transactions_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "transactionStream"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tTransactionID as string,\n\t\tCustomerID as string,\n\t\tMovieID as string,\n\t\tRentalDate as date 'yyyy-MM-dd',\n\t\tReturnDate as date 'yyyy-MM-dd',\n\t\tRentalCost as decimal(10,0),\n\t\tLateFee as decimal(10,0),\n\t\tRewindFlag as boolean,\n\t\tCreatedDate as date 'yyyy-MM-dd',\n\t\tUpdatedDate as date 'yyyy-MM-dd'\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> transactionStream"
+		}
+	}
+}
