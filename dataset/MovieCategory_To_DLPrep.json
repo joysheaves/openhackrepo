@@ -1,0 +1,80 @@
+{
+	"name": "MovieCategory_To_DLPrep",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SouthridgeDL_Dest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "MovieCat",
+				"fileSystem": "prepdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "02e7ebe8-e09c-40f5-ba46-ab465bd0f73f",
+				"type": "String"
+			},
+			{
+				"name": "Kelemen",
+				"type": "String"
+			},
+			{
+				"name": "Orsos",
+				"type": "String"
+			},
+			{
+				"name": "5555550673",
+				"type": "String"
+			},
+			{
+				"name": "2017-01-03 00:00:00.00000004",
+				"type": "String"
+			},
+			{
+				"name": "2017-01-03 00:00:00.00000005",
+				"type": "String"
+			},
+			{
+				"name": "SR",
+				"type": "String"
+			},
+			{
+				"name": "3d034f2a-b657-4c80-b312-6adb8e1c99b8",
+				"type": "String"
+			},
+			{
+				"name": "155 Pine St",
+				"type": "String"
+			},
+			{
+				"name": "Prop_9",
+				"type": "String"
+			},
+			{
+				"name": "Portland",
+				"type": "String"
+			},
+			{
+				"name": "OR",
+				"type": "String"
+			},
+			{
+				"name": "85101",
+				"type": "String"
+			},
+			{
+				"name": "1",
+				"type": "String"
+			}
+		]
+	}
+}
