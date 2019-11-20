@@ -6,13 +6,6 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SR_Movies_From_RAW",
-						"type": "DatasetReference"
-					},
-					"name": "SR_Movies"
-				},
-				{
-					"dataset": {
 						"referenceName": "VA_Actors_From_RAW",
 						"type": "DatasetReference"
 					},
@@ -35,7 +28,7 @@
 					"name": "DerivedColumn2"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SR_Movies\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VA_Actors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FC_Actors\nVA_Actors derive() ~> DerivedColumn1\nFC_Actors derive() ~> DerivedColumn2"
+			"script": "\n\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VA_Actors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FC_Actors\nVA_Actors derive() ~> DerivedColumn1\nFC_Actors derive() ~> DerivedColumn2"
 		}
 	}
 }
