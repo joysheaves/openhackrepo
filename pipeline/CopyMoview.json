@@ -64,7 +64,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_897",
+						"referenceName": "Raw_Movies",
 						"type": "DatasetReference"
 					}
 				]

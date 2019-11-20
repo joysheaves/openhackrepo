@@ -63,7 +63,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_3ax",
+									"referenceName": "Raw_Streaming",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"

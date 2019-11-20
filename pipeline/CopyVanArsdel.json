@@ -64,7 +64,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_lrv",
+									"referenceName": "Raw_VanArsdel",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"

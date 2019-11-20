@@ -64,7 +64,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_i5e",
+									"referenceName": "Raw_Sales",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"

@@ -1,0 +1,21 @@
+{
+	"name": "Raw_Movies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SouthridgeDL_Dest",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "movies.json",
+				"folderPath": "Movies",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
