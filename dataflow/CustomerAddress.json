@@ -1,0 +1,75 @@
+{
+	"name": "CustomerAddress",
+	"properties": {
+		"description": "Customer Address From SR FC VA sources",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FC_Customer_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "FCCustomerRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "VA_Customer_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "VACustomerRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "SR_Customer_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "SRCustomerRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "SR_CustAddress_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "SRCustAddressRAW"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CustomerMain_To_DLPREP",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerMainSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DeriveFCCustomer"
+				},
+				{
+					"name": "DeriveVACustomer"
+				},
+				{
+					"name": "DerivedSRCustomer"
+				},
+				{
+					"name": "DeriveSRCustAddress"
+				},
+				{
+					"name": "SRCustomerJoin"
+				},
+				{
+					"name": "CustomerMainUnion"
+				},
+				{
+					"name": "SurrogateKey"
+				},
+				{
+					"name": "SRCustomerSelect"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCCustomerRAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VACustomerRAW\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: true) ~> SRCustomerRAW\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRCustAddressRAW\nFCCustomerRAW derive(SourceSysId = 'FC') ~> DeriveFCCustomer\nVACustomerRAW derive(SourceSysId = 'VA') ~> DeriveVACustomer\nSRCustomerRAW derive(SourceSysId = 'SR') ~> DerivedSRCustomer\nSRCustAddressRAW derive(SourceSysId = 'SR') ~> DeriveSRCustAddress\nDerivedSRCustomer, DeriveSRCustAddress join(SRCustomerRAW@CustomerID == SRCustAddressRAW@CustomerID,\n\tjoinType:'outer',\n\tbroadcast: 'none')~> SRCustomerJoin\nSRCustomerSelect, DeriveVACustomer, DeriveFCCustomer union(byName: true)~> CustomerMainUnion\nCustomerMainUnion keyGenerate(output(id as long),\n\tstartAt: 1L) ~> SurrogateKey\nSRCustomerJoin select(mapColumn(\n\t\tCustomerID = SRCustomerRAW@CustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tPhoneNumber,\n\t\tCreatedDate = SRCustomerRAW@CreatedDate,\n\t\tUpdatedDate = SRCustomerRAW@UpdatedDate,\n\t\tSourceSysId = DerivedSRCustomer@SourceSysId,\n\t\tAddressID,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tCreatedDate = SRCustAddressRAW@CreatedDate,\n\t\tUpdatedDate = SRCustAddressRAW@UpdatedDate,\n\t\tSourceSysId = DeriveSRCustAddress@SourceSysId\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SRCustomerSelect\nSurrogateKey sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> CustomerMainSink"
+		}
+	}
+}
