@@ -6,19 +6,50 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SR_MoviesJSON_From_RAW",
+						"referenceName": "SR_Movies_From_RAW",
 						"type": "DatasetReference"
 					},
 					"name": "SRRatingFromRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "FC_Movies_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "FCRatingFromRAW"
+				},
+				{
+					"dataset": {
+						"referenceName": "VA_Movies_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "VARatingFromRaw"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "RatingFieldSelect"
+				},
+				{
+					"name": "FCRatingFieldSelect"
+				},
+				{
+					"name": "VARatingFieldSelect"
+				},
+				{
+					"name": "Union1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRRatingFromRAW\nSRRatingFromRAW select(mapColumn(\n\t\tMovieRatingDescription = rating\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RatingFieldSelect"
+			"script": "\n\nsource(output(\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRRatingFromRAW\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCRatingFromRAW\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VARatingFromRaw\nSRRatingFromRAW select(mapColumn(\n\t\tRating = rating\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RatingFieldSelect\nFCRatingFromRAW select(mapColumn(\n\t\tRating\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FCRatingFieldSelect\nVARatingFromRaw select(mapColumn(\n\t\tRating\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> VARatingFieldSelect\nRatingFieldSelect, FCRatingFieldSelect, VARatingFieldSelect union(byName: true)~> Union1\nUnion1 sink(input(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 		}
 	}
 }
