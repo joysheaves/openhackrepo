@@ -1,5 +1,5 @@
 {
-	"name": "FC",
+	"name": "FCActors",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Movies.csv",
-				"folderPath": "FourthCoffee",
+				"fileName": "movies.json",
+				"folderPath": "Movies",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ",",
@@ -21,47 +21,71 @@
 		},
 		"schema": [
 			{
-				"name": "CustomerID",
+				"name": "{\"actors\":[{\"name\":\"Eric Ray\"}",
 				"type": "String"
 			},
 			{
-				"name": "LastName",
+				"name": "{\"name\":\"Danielle Busey\"}",
 				"type": "String"
 			},
 			{
-				"name": "FirstName",
+				"name": "{\"name\":\"Priscilla Wayne\"}]",
 				"type": "String"
 			},
 			{
-				"name": "AddressLine1",
+				"name": "\"availabilityDate\":\"2017-03-14 00:00:00\"",
 				"type": "String"
 			},
 			{
-				"name": "AddressLine2",
+				"name": "\"genre\":\"Science Fiction\"",
 				"type": "String"
 			},
 			{
-				"name": "City",
+				"name": "\"rating\":\"PG-13\"",
 				"type": "String"
 			},
 			{
-				"name": "State",
+				"name": "\"releaseYear\":1935",
 				"type": "String"
 			},
 			{
-				"name": "ZipCode",
+				"name": "\"runtime\":162",
 				"type": "String"
 			},
 			{
-				"name": "PhoneNumber",
+				"name": "\"streamingAvailabilityDate\":\"2017-06-06 00:00:00\"",
 				"type": "String"
 			},
 			{
-				"name": "CreatedDate",
+				"name": "\"tier\":1",
 				"type": "String"
 			},
 			{
-				"name": "UpdatedDate",
+				"name": "\"title\":\"Happy Theater\"",
+				"type": "String"
+			},
+			{
+				"name": "\"id\":\"9248bacc-4d5c-4758-a250-4002bd645482\"",
+				"type": "String"
+			},
+			{
+				"name": "\"_rid\":\"OZgzAKxSsQQBAAAAAAAAAA==\"",
+				"type": "String"
+			},
+			{
+				"name": "\"_self\":\"dbs/OZgzAA==/colls/OZgzAKxSsQQ=/docs/OZgzAKxSsQQBAAAAAAAAAA==/\"",
+				"type": "String"
+			},
+			{
+				"name": "\"_etag\":\"\\\"0400eef5-0000-0100-0000-5dd412eb0000\\\"\"",
+				"type": "String"
+			},
+			{
+				"name": "\"_attachments\":\"attachments/\"",
+				"type": "String"
+			},
+			{
+				"name": "\"_ts\":1574179563}",
 				"type": "String"
 			}
 		]
