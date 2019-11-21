@@ -1,0 +1,15 @@
+{
+	"name": "SourceDataset_3me",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MovieCosmosDb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": [],
+		"typeProperties": {
+			"collectionName": "movies"
+		}
+	}
+}
