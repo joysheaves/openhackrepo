@@ -36,9 +36,15 @@
 				},
 				{
 					"name": "Select1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "SurrogateKey1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCMoviewsFromRaw\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VAMoviesFromRaw\nsource(output(\n\t\t{_attachments} as string,\n\t\t{_etag} as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_ts} as string,\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\tid as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> SRMovieFromRAW\nFCMoviewsFromRaw, VAMoviesFromRaw union(byName: true)~> FCandVA\nFCandVA, Select1 union(byName: true)~> SRandFCandVA\nSRMovieFromRAW select(mapColumn(\n\t\tCategory = genre,\n\t\tMovieID = id,\n\t\tRating = rating,\n\t\tReleaseYear = releaseYear,\n\t\tRuntime = runtime,\n\t\tMovieTitle = title\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
+			"script": "\n\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCMoviewsFromRaw\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VAMoviesFromRaw\nsource(output(\n\t\t{_attachments} as string,\n\t\t{_etag} as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_ts} as string,\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\tid as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> SRMovieFromRAW\nFCMoviewsFromRaw, VAMoviesFromRaw union(byName: true)~> FCandVA\nFCandVA, Select1 union(byName: true)~> SRandFCandVA\nSRMovieFromRAW select(mapColumn(\n\t\tCategory = genre,\n\t\tMovieID = id,\n\t\tRating = rating,\n\t\tMovieRunTimeMin = runtime,\n\t\tMovieTitle = title\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSRandFCandVA derive() ~> DerivedColumn1\nDerivedColumn1 keyGenerate(output(MovieSK as long),\n\tstartAt: 1L) ~> SurrogateKey1"
 		}
 	}
 }
