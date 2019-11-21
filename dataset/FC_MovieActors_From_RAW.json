@@ -1,5 +1,5 @@
 {
-	"name": "FCActors_From_RAW",
+	"name": "FC_MovieActors_From_RAW",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Actors.csv",
+				"fileName": "MovieActors.csv",
 				"folderPath": "FourthCoffee",
 				"fileSystem": "raw"
 			},
@@ -21,71 +21,15 @@
 		},
 		"schema": [
 			{
-				"name": "{\"actors\":[{\"name\":\"Eric Ray\"}",
+				"name": "MovieActorID",
 				"type": "String"
 			},
 			{
-				"name": "{\"name\":\"Danielle Busey\"}",
+				"name": "MovieID",
 				"type": "String"
 			},
 			{
-				"name": "{\"name\":\"Priscilla Wayne\"}]",
-				"type": "String"
-			},
-			{
-				"name": "\"availabilityDate\":\"2017-03-14 00:00:00\"",
-				"type": "String"
-			},
-			{
-				"name": "\"genre\":\"Science Fiction\"",
-				"type": "String"
-			},
-			{
-				"name": "\"rating\":\"PG-13\"",
-				"type": "String"
-			},
-			{
-				"name": "\"releaseYear\":1935",
-				"type": "String"
-			},
-			{
-				"name": "\"runtime\":162",
-				"type": "String"
-			},
-			{
-				"name": "\"streamingAvailabilityDate\":\"2017-06-06 00:00:00\"",
-				"type": "String"
-			},
-			{
-				"name": "\"tier\":1",
-				"type": "String"
-			},
-			{
-				"name": "\"title\":\"Happy Theater\"",
-				"type": "String"
-			},
-			{
-				"name": "\"id\":\"9248bacc-4d5c-4758-a250-4002bd645482\"",
-				"type": "String"
-			},
-			{
-				"name": "\"_rid\":\"OZgzAKxSsQQBAAAAAAAAAA==\"",
-				"type": "String"
-			},
-			{
-				"name": "\"_self\":\"dbs/OZgzAA==/colls/OZgzAKxSsQQ=/docs/OZgzAKxSsQQBAAAAAAAAAA==/\"",
-				"type": "String"
-			},
-			{
-				"name": "\"_etag\":\"\\\"0400eef5-0000-0100-0000-5dd412eb0000\\\"\"",
-				"type": "String"
-			},
-			{
-				"name": "\"_attachments\":\"attachments/\"",
-				"type": "String"
-			},
-			{
-				"name": "\"_ts\":1574179563}",
+				"name": "ActorID",
 				"type": "String"
 			}
 		]
