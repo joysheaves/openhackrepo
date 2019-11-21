@@ -1,5 +1,5 @@
 {
-	"name": "VA_MoviesActors_From_Raw",
+	"name": "DelimitedText2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dboMovieActors.txt",
-				"folderPath": "VanArdsel",
+				"folderPath": "Movies",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ",",
@@ -19,19 +18,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "MovieActorID",
-				"type": "String"
-			},
-			{
-				"name": "MovieID",
-				"type": "String"
-			},
-			{
-				"name": "ActorID",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
