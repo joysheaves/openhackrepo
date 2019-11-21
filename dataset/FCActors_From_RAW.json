@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "movies.json",
-				"folderPath": "Movies",
+				"fileName": "Actors.csv",
+				"folderPath": "FourthCoffee",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ",",
