@@ -19,6 +19,43 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "title",
+				"type": "String"
+			},
+			{
+				"name": "genre",
+				"type": "String"
+			},
+			{
+				"name": "rating",
+				"type": "String"
+			},
+			{
+				"name": "runtime",
+				"type": "String"
+			},
+			{
+				"name": "releaseYear",
+				"type": "String"
+			},
+			{
+				"name": "availabilityDate",
+				"type": "String"
+			},
+			{
+				"name": "streamingAvailabilityDate",
+				"type": "String"
+			}
+		]
 	}
 }
