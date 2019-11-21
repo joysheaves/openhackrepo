@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "FCActors"
+				},
+				{
+					"dataset": {
+						"referenceName": "SR_MovieFlat_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "SRMOVIEFLAT"
 				}
 			],
 			"sinks": [
@@ -39,7 +46,7 @@
 					"name": "SurrogateKey1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VAActors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCActors\nFCActors, VAActors union(byName: true)~> MergeVAFC\nMergeVAFC derive(ActorName = case(isNull(ActorName),'Unknown Actor Name',ActorName),\n\t\tGender = case(isNull(Gender),'U',Gender)) ~> NullChecks\nNullChecks keyGenerate(output(ActorSK as long),\n\tstartAt: 1L) ~> SurrogateKey1\nSurrogateKey1 sink(input(\n\t\t{02e7ebe8-e09c-40f5-ba46-ab465bd0f73f} as string,\n\t\tKelemen as string,\n\t\tOrsos as string,\n\t\t{5555550673} as string,\n\t\t{2017-01-03 00:00:00.00000004} as string,\n\t\t{2017-01-03 00:00:00.00000005} as string,\n\t\tSR as string,\n\t\t{3d034f2a-b657-4c80-b312-6adb8e1c99b8} as string,\n\t\t{155 Pine St} as string,\n\t\tProp_9 as string,\n\t\tPortland as string,\n\t\tOR as string,\n\t\t{85101} as string,\n\t\t{1} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OutletToDLPREP"
+			"script": "\n\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VAActors\nsource(output(\n\t\tActorID as string,\n\t\tActorName as string,\n\t\tGender as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FCActors\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRMOVIEFLAT\nFCActors, VAActors union(byName: true)~> MergeVAFC\nMergeVAFC derive(ActorName = case(isNull(ActorName),'Unknown Actor Name',ActorName),\n\t\tGender = case(isNull(Gender),'U',Gender)) ~> NullChecks\nNullChecks keyGenerate(output(ActorSK as long),\n\tstartAt: 1L) ~> SurrogateKey1\nSurrogateKey1 sink(input(\n\t\t{02e7ebe8-e09c-40f5-ba46-ab465bd0f73f} as string,\n\t\tKelemen as string,\n\t\tOrsos as string,\n\t\t{5555550673} as string,\n\t\t{2017-01-03 00:00:00.00000004} as string,\n\t\t{2017-01-03 00:00:00.00000005} as string,\n\t\tSR as string,\n\t\t{3d034f2a-b657-4c80-b312-6adb8e1c99b8} as string,\n\t\t{155 Pine St} as string,\n\t\tProp_9 as string,\n\t\tPortland as string,\n\t\tOR as string,\n\t\t{85101} as string,\n\t\t{1} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OutletToDLPREP"
 		}
 	}
 }
