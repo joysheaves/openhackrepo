@@ -1,5 +1,5 @@
 {
-	"name": "VAActors_From_Raw",
+	"name": "VAMoviesActors_From_Raw",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
