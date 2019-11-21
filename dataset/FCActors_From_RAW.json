@@ -1,5 +1,5 @@
 {
-	"name": "FCActors",
+	"name": "FCActors_From_RAW",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
