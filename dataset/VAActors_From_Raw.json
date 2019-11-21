@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dboActors.txt",
+				"fileName": "dboMovieActors.txt",
 				"folderPath": "VanArdsel",
 				"fileSystem": "raw"
 			},
@@ -21,15 +21,15 @@
 		},
 		"schema": [
 			{
+				"name": "MovieActorID",
+				"type": "String"
+			},
+			{
+				"name": "MovieID",
+				"type": "String"
+			},
+			{
 				"name": "ActorID",
-				"type": "String"
-			},
-			{
-				"name": "ActorName",
-				"type": "String"
-			},
-			{
-				"name": "Gender",
 				"type": "String"
 			}
 		]
