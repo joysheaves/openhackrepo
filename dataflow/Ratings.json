@@ -1,12 +1,24 @@
 {
-	"name": "dataflow1",
+	"name": "Ratings",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SR_Movies_From_RAW",
+						"type": "DatasetReference"
+					},
+					"name": "SRRatingFromRAW"
+				}
+			],
 			"sinks": [],
-			"transformations": [],
-			"script": "\n"
+			"transformations": [
+				{
+					"name": "RatingFieldSelect"
+				}
+			],
+			"script": "\n\nsource(output(\n\t\tactors as (name as string)[],\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as string,\n\t\truntime as string,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as string,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SRRatingFromRAW\nSRRatingFromRAW select(mapColumn(\n\t\tMovieRatingDescription = rating\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RatingFieldSelect"
 		}
 	}
 }
