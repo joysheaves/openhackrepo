@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SR_Movies_From_RAW",
+						"referenceName": "SR_MoviesJSON_From_RAW",
 						"type": "DatasetReference"
 					},
 					"name": "SRRatingFromRAW"

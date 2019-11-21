@@ -1,5 +1,5 @@
 {
-	"name": "SR_Movies_From_RAW",
+	"name": "SR_MoviesJSON_From_RAW",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SouthridgeDL_Dest",
